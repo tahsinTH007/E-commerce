@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
 import { fail } from "../utils/envelope";
 
+// Centralized error handling middleware
 export function errorHandler(
   err: unknown,
   _req: Request,

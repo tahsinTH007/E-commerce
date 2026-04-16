@@ -9,25 +9,34 @@ import { errorHandler } from "./middlewares/errorHandler";
 import { notFoundHandler } from "./middlewares/notFound";
 import { connectDB } from "./db";
 import { ok } from "./utils/envelope";
+import { authRouter } from "./routes/auth/auth.routes";
+import { clerkMiddleware } from "@clerk/express";
 
+// Main entry point of the server application
 async function mainEntryFunction() {
+  // Connect to the database before starting the server
   await connectDB();
+
   const app = express();
 
+  // Configure CORS to allow requests from specified origins
   const corsOrigins = process.env.CORS_ORIGIN
     ? process.env.CORS_ORIGIN.split(",")
         .map((origin) => origin.trim())
         .filter(Boolean)
     : [];
+
   app.use(cors({ origin: corsOrigins, credentials: true }));
-
   app.use(express.json());
-
   app.use(morgan("dev"));
+  app.use(clerkMiddleware());
 
   app.get("/health", (_req, res) => {
     res.status(200).json(ok({ message: "Server is healthy" }));
   });
+
+  // Register application routes
+  app.use("/api/auth", authRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
