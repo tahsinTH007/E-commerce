@@ -36,7 +36,7 @@ async function mainEntryFunction() {
   });
 
   // Register application routes
-  app.use("/api/auth", authRouter);
+  app.use("/auth", authRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
