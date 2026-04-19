@@ -1,5 +1,5 @@
-function AdminPromos() {
-  return <div>Admin Promos</div>;
-}
+const AdminPromos = () => {
+  return <div>AdminPromos</div>;
+};
 
 export default AdminPromos;

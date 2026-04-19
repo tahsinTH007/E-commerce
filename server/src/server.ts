@@ -12,6 +12,7 @@ import { ok } from "./utils/envelope";
 import { authRouter } from "./routes/auth/auth.routes";
 import { clerkMiddleware } from "@clerk/express";
 import { adminProductRouter } from "./routes/admin/product.routes";
+import { initCloudinary } from "./utils/cloudinary";
 
 // Main entry point of the server application
 async function mainEntryFunction() {
@@ -19,6 +20,8 @@ async function mainEntryFunction() {
   await connectDB();
 
   const app = express();
+
+  initCloudinary();
 
   // Configure CORS to allow requests from specified origins
   const corsOrigins = process.env.CORS_ORIGIN

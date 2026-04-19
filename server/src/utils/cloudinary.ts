@@ -6,16 +6,17 @@ type CloudinaryUploadResult = {
   publicId: string;
 };
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+export function initCloudinary() {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+}
 
-// Upload Single file
 export function uploadSingleBufferToCloudinary(
-  file: Buffer,
-  folder: string = "ecommerce/products",
+  fileBuffer: Buffer,
+  folder = "ecommerce/products",
 ): Promise<CloudinaryUploadResult> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
@@ -29,7 +30,7 @@ export function uploadSingleBufferToCloudinary(
         }
 
         if (!result) {
-          return reject(new Error("Cloudinary upload failed"));
+          return reject(new Error("Cloudinary upload failed!!!"));
         }
 
         resolve({
@@ -39,14 +40,13 @@ export function uploadSingleBufferToCloudinary(
       },
     );
 
-    streamifier.createReadStream(file).pipe(uploadStream);
+    streamifier.createReadStream(fileBuffer).pipe(uploadStream);
   });
 }
 
-// Upload multiple files
 export async function uploadManyBuffersToCloudinary(
   files: Buffer[],
-  folder: string = "ecommerce/products",
+  folder = "ecommerce/products",
 ): Promise<CloudinaryUploadResult[]> {
   return Promise.all(
     files.map((file) => uploadSingleBufferToCloudinary(file, folder)),

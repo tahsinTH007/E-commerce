@@ -1,7 +1,5 @@
 import { Router, type Request, type Response } from "express";
 import multer from "multer";
-
-import { getDbUserFromRequest, requireAdmin } from "../../middlewares/auth";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { Category } from "../../models/Category";
 import { ok } from "../../utils/envelope";
@@ -9,6 +7,7 @@ import { requireFound, requireNumber, requireText } from "../../utils/helpers";
 import { Product } from "../../models/Product";
 import { AppError } from "../../utils/AppError";
 import { uploadManyBuffersToCloudinary } from "../../utils/cloudinary";
+import { getDbUserFromRequest, requireAdmin } from "../../middlewares/auth";
 
 type UploadedImage = {
   url: string;
@@ -28,16 +27,19 @@ const upload = multer({
 
 adminProductRouter.use(requireAdmin);
 
-// Categories
+// categories
+
 adminProductRouter.get(
   "/categories",
-  asyncHandler(async (req: Request, res: Response) => {
-    const categories = await Category.find([]).sort({ name: 1 });
+  asyncHandler(async (_req: Request, res: Response) => {
+    const categories = await Category.find({}).sort({
+      name: 1,
+    });
+
     res.json(ok(categories));
   }),
 );
 
-// Create category
 adminProductRouter.post(
   "/categories",
   asyncHandler(async (req: Request, res: Response) => {
@@ -51,12 +53,13 @@ adminProductRouter.post(
   }),
 );
 
-// Update category
 adminProductRouter.put(
   "/categories/:id",
   asyncHandler(async (req: Request, res: Response) => {
     const name = String(req.body.name || "").trim();
     const extractCategoryId = req.params.id as string;
+
+    requireText(name, "Category name is needed");
 
     const existingCategory = await Category.findById(extractCategoryId);
     const category = requireFound(existingCategory, "Category not found");
@@ -68,24 +71,26 @@ adminProductRouter.put(
   }),
 );
 
-//Products
+// products
 adminProductRouter.get(
   "/products",
   asyncHandler(async (req: Request, res: Response) => {
     const search = String(req.query.search || "").trim();
 
-    const query: Record<string, unknown> = search
-      ? { title: { $regex: search, $options: "i" } }
-      : {};
+    const query: Record<string, unknown> = {};
+
+    if (search) {
+      query.title = { $regex: search, $options: "i" };
+    }
 
     const products = await Product.find(query)
       .populate("category", "name")
       .sort({ createdAt: -1 });
+
     res.json(ok(products));
   }),
 );
 
-// Product details
 adminProductRouter.get(
   "/products/:id",
   asyncHandler(async (req: Request, res: Response) => {
@@ -102,7 +107,6 @@ adminProductRouter.get(
   }),
 );
 
-// Create Product
 adminProductRouter.post(
   "/products",
   upload.array("images", 10),
@@ -134,7 +138,7 @@ adminProductRouter.post(
     const files = (req.files as Express.Multer.File[]) || [];
 
     if (!files.length) {
-      throw new AppError(400, "At-least one image is needed");
+      throw new AppError(400, "Atleast one image is needed");
     }
 
     const uploadedImages = await uploadManyBuffersToCloudinary(
@@ -173,7 +177,6 @@ adminProductRouter.post(
   }),
 );
 
-// Update Product
 adminProductRouter.put(
   "/products/:id",
   upload.array("images", 10),
@@ -237,7 +240,7 @@ adminProductRouter.put(
     ];
 
     if (!mergedImages.length) {
-      throw new AppError(400, "At-least one img is needed");
+      throw new AppError(400, "Atleast one img is needed");
     }
 
     const finalImages: UploadedImage[] = mergedImages.map(
