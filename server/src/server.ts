@@ -13,6 +13,7 @@ import { authRouter } from "./routes/auth/auth.routes";
 import { clerkMiddleware } from "@clerk/express";
 import { adminProductRouter } from "./routes/admin/product.routes";
 import { initCloudinary } from "./utils/cloudinary";
+import { customerProductRouter } from "./routes/customer/product.routes";
 
 // Main entry point of the server application
 async function mainEntryFunction() {
@@ -42,6 +43,7 @@ async function mainEntryFunction() {
   // Register application routes
   app.use("/auth", authRouter);
   app.use("/admin", adminProductRouter);
+  app.use("/customer", customerProductRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
