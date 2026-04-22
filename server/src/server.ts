@@ -17,6 +17,7 @@ import { customerProductRouter } from "./routes/customer/product.routes";
 import { customerAddressRouter } from "./routes/customer/address.routes";
 import { adminPromoRouter } from "./routes/admin/promo.routes";
 import { customerPromoRouter } from "./routes/customer/promo.routes";
+import { customerCartWishlistRouter } from "./routes/customer/cart-wishlist.routes";
 
 // Main entry point of the server application
 async function mainEntryFunction() {
@@ -54,6 +55,7 @@ async function mainEntryFunction() {
     customerProductRouter,
     customerAddressRouter,
     customerPromoRouter,
+    customerCartWishlistRouter,
   ]);
 
   app.use(notFoundHandler);
