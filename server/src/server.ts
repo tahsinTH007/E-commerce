@@ -18,6 +18,13 @@ import { customerAddressRouter } from "./routes/customer/address.routes";
 import { adminPromoRouter } from "./routes/admin/promo.routes";
 import { customerPromoRouter } from "./routes/customer/promo.routes";
 import { customerCartWishlistRouter } from "./routes/customer/cart-wishlist.routes";
+import { customerCheckoutRouter } from "./routes/customer/checkout.routes";
+import { customerOrderRouter } from "./routes/customer/orders.routes";
+import { customerCheckoutWithPointsRouter } from "./routes/customer/checkout-with-points.routes";
+import { adminOrderRouter } from "./routes/admin/orders.routes";
+import { adminSettingsRouter } from "./routes/admin/settings.routes";
+import { adminDashboardRouter } from "./routes/admin/dashboard.routes";
+import { customerHomeRouter } from "./routes/customer/home.routes";
 
 // Main entry point of the server application
 async function mainEntryFunction() {
@@ -48,7 +55,13 @@ async function mainEntryFunction() {
   app.use("/auth", authRouter);
 
   // admin
-  app.use("/admin", [adminProductRouter, adminPromoRouter]);
+  app.use("/admin", [
+    adminProductRouter,
+    adminPromoRouter,
+    adminOrderRouter,
+    adminSettingsRouter,
+    adminDashboardRouter,
+  ]);
 
   // customer
   app.use("/customer", [
@@ -56,6 +69,10 @@ async function mainEntryFunction() {
     customerAddressRouter,
     customerPromoRouter,
     customerCartWishlistRouter,
+    customerCheckoutRouter,
+    customerCheckoutWithPointsRouter,
+    customerOrderRouter,
+    customerHomeRouter,
   ]);
 
   app.use(notFoundHandler);

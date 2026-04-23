@@ -71,7 +71,7 @@ adminProductRouter.put(
   }),
 );
 
-// products
+
 adminProductRouter.get(
   "/products",
   asyncHandler(async (req: Request, res: Response) => {
