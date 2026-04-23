@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/features/auth/store";
 import { useAuth } from "@clerk/react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-// import { Commonloader } from "../common/Loader";
+import { CommonLoader } from "../common/Loader";
 
 export function ProtectedLayout() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -9,7 +9,7 @@ export function ProtectedLayout() {
   const location = useLocation();
 
   if (!isLoaded || (isSignedIn && (!isBootstrapped || status === "loading")))
-    return null;
+    return <CommonLoader />;
 
   if (!isSignedIn) {
     return (
