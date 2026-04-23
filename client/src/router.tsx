@@ -12,7 +12,7 @@ import AdminProducts from "./pages/admin/Products";
 import AdminCoupons from "./pages/admin/Promos";
 import AdminOrders from "./pages/admin/Orders";
 import AdminSettings from "./pages/admin/Settings";
-// import Collections from "./pages/customer/Collections";
+import Collections from "./pages/customer/Collections";
 // import CollectionDetails from "./pages/customer/Collection-Details";
 // import CustomerOrderSuccessPage from "./pages/customer/Order-Sucess";
 
@@ -36,10 +36,10 @@ export const router = createBrowserRouter([
             path: "sign-up/*",
             element: <SignUpPage />,
           },
-          // {
-          //   path: "collections",
-          //   element: <Collections />,
-          // },
+          {
+            path: "collections",
+            element: <Collections />,
+          },
           // {
           //   path: "collection/:id",
           //   element: <CollectionDetails />,
