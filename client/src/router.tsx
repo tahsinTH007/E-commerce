@@ -14,7 +14,7 @@ import AdminOrders from "./pages/admin/Orders";
 import AdminSettings from "./pages/admin/Settings";
 import Collections from "./pages/customer/Collections";
 import CollectionDetails from "./pages/customer/Collection-Details";
-// import CustomerOrderSuccessPage from "./pages/customer/Order-Sucess";
+import CustomerOrderSuccessPage from "./pages/customer/Order-Sucess";
 
 export const router = createBrowserRouter([
   {
@@ -49,10 +49,10 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedLayout />,
         children: [
-          // {
-          //   path: "order-success",
-          //   element: <CustomerOrderSuccessPage />,
-          // },
+          {
+            path: "order-success",
+            element: <CustomerOrderSuccessPage />,
+          },
         ],
       },
     ],

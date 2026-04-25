@@ -20,15 +20,15 @@ import {
 import { Link } from "react-router-dom";
 import { CustomerMobileNavbar } from "./mobile-navbar";
 import { useAuthStore } from "@/features/auth/store";
-// import { useCustomerWishlistStore } from "@/features/customer/wishlist/store";
-// import { useEffect } from "react";
-// import CustomerWishlistDialog from "../wishlist/customer-wishlist-dialog";
-// import { useCustomerProfileStore } from "@/features/customer/profile/store";
-// import CustomerProfileDialog from "../profile/customer-profile-dialog";
-// import { useCustomerCartAndCheckoutStore } from "@/features/customer/cart-and-checkout/store";
-// import CustomerCartAndCheckoutDrawer from "../cart-and-checkout/customer-cart-and-checkout-drawer";
-// import { useCustomerOrdersStore } from "@/features/customer/orders/store";
-// import CustomerOrdersDialog from "../orders/customer-orders-dialog";
+import { useCustomerWishlistStore } from "@/features/customer/wishlist/store";
+import { useEffect } from "react";
+import CustomerWishlistDialog from "../wishlist/customer-wishlist-dialog";
+import { useCustomerProfileStore } from "@/features/customer/profile/store";
+import CustomerProfileDialog from "../profile/customer-profile-dialog";
+import { useCustomerCartAndCheckoutStore } from "@/features/customer/cart-and-checkout/store";
+import CustomerCartAndCheckoutDrawer from "../cart-and-checkout/customer-cart-and-checkout-drawer";
+import { useCustomerOrdersStore } from "@/features/customer/orders/store";
+import CustomerOrdersDialog from "../orders/customer-orders-dialog";
 
 type NavItem = {
   label: string;
@@ -77,8 +77,8 @@ const dropdownItemLink =
 const cartBadge =
   "absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-amber-400 px-1.5 text-[11px] font-semibold leading-5 text-black";
 
-// const wishlistBadge =
-//   "absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-amber-400 px-1.5 text-[11px] font-semibold leading-5 text-black";
+const wishlistBadge =
+  "absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-amber-400 px-1.5 text-[11px] font-semibold leading-5 text-black";
 
 function NavTextLink({
   href,
@@ -101,47 +101,47 @@ export function CustomerNavbar() {
   const { isSignedIn, signOut, isLoaded } = useAuth();
   const { isBootstrapped } = useAuthStore();
 
-  //   const {
-  //     items: wishlistItems,
-  //     loadWishlist,
-  //     clear: clearWishlist,
-  //     setOpen: setWishlistOpen,
-  //   } = useCustomerWishlistStore((state) => state);
+  const {
+    items: wishlistItems,
+    loadWishlist,
+    clear: clearWishlist,
+    setOpen: setWishlistOpen,
+  } = useCustomerWishlistStore((state) => state);
 
-  //   const { openProfile, clear: clearProfile } = useCustomerProfileStore(
-  //     (state) => state,
-  //   );
+  const { openProfile, clear: clearProfile } = useCustomerProfileStore(
+    (state) => state,
+  );
 
-  //   const { setOpen, cart, loadCart } = useCustomerCartAndCheckoutStore(
-  //     (state) => state,
-  //   );
+  const { setOpen, cart, loadCart } = useCustomerCartAndCheckoutStore(
+    (state) => state,
+  );
 
-  //   const { openOrders } = useCustomerOrdersStore((state) => state);
+  const { openOrders } = useCustomerOrdersStore((state) => state);
 
-  //   useEffect(() => {
-  //     if (!isLoaded || !isBootstrapped) return;
+  useEffect(() => {
+    if (!isLoaded || !isBootstrapped) return;
 
-  //     void loadCart(Boolean(isSignedIn));
+    void loadCart(Boolean(isSignedIn));
 
-  //     if (!isSignedIn) {
-  //       clearWishlist();
-  //       clearProfile();
-  //       return;
-  //     }
+    if (!isSignedIn) {
+      clearWishlist();
+      clearProfile();
+      return;
+    }
 
-  //     void loadWishlist();
-  //   }, [
-  //     clearWishlist,
-  //     isBootstrapped,
-  //     clearProfile,
-  //     isSignedIn,
-  //     isLoaded,
-  //     loadWishlist,
-  //     loadCart,
-  //   ]);
+    void loadWishlist();
+  }, [
+    clearWishlist,
+    isBootstrapped,
+    clearProfile,
+    isSignedIn,
+    isLoaded,
+    loadWishlist,
+    loadCart,
+  ]);
 
   const showSignInUi = isLoaded && isBootstrapped && isSignedIn;
-  //   const wishlistCount = wishlistItems.length;
+  const wishlistCount = wishlistItems.length;
 
   return (
     <header className={headerClass}>
@@ -164,10 +164,10 @@ export function CustomerNavbar() {
             <button
               type="button"
               className={iconLink}
-              //   onClick={() => setWishlistOpen(true)}
+              onClick={() => setWishlistOpen(true)}
             >
               <Heart className="w-5 h-5" />
-              {/* <span className={wishlistBadge}>{wishlistCount}</span> */}
+              <span className={wishlistBadge}>{wishlistCount}</span>
             </button>
           ) : null}
 
@@ -184,7 +184,7 @@ export function CustomerNavbar() {
                 className={accountDropdownContent}
               >
                 <DropdownMenuItem
-                  //   onClick={() => void openProfile()}
+                  onClick={() => void openProfile()}
                   className={dropdownItemLink}
                 >
                   <User className="h-4 w-4" />
@@ -192,7 +192,7 @@ export function CustomerNavbar() {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
-                  //   onClick={() => void openOrders()}
+                  onClick={() => void openOrders()}
                   className={dropdownItemLink}
                 >
                   <ShoppingBasket className="h-4 w-4" />
@@ -212,21 +212,18 @@ export function CustomerNavbar() {
             <NavTextLink href="/sign-in" label="Login" icon={LogIn} />
           )}
 
-          <div
-            //   onClick={() => setOpen(true)}
-            className={iconLink}
-          >
+          <div onClick={() => setOpen(true)} className={iconLink}>
             <ShoppingCart className="h-4.5 w-4.5" />
-            <span className={cartBadge}>{/* {cart?.items?.length} */}0</span>
+            <span className={cartBadge}>{cart?.items?.length}</span>
           </div>
         </nav>
 
         <CustomerMobileNavbar isSignedIn={!!isSignedIn} />
 
-        {/* {showSignInUi ? <CustomerWishlistDialog /> : null}
+        {showSignInUi ? <CustomerWishlistDialog /> : null}
         {showSignInUi ? <CustomerProfileDialog /> : null}
         {showSignInUi ? <CustomerOrdersDialog /> : null}
-        <CustomerCartAndCheckoutDrawer /> */}
+        <CustomerCartAndCheckoutDrawer />
       </div>
     </header>
   );

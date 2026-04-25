@@ -53,7 +53,7 @@ function CollectionDetails() {
 
   const product = data?.product ?? null;
   const relatedProducts = data?.relatedProducts ?? [];
-  const isWishlistActive = !!product
+  const isWishlistActive = product
     ? wishlistItems.some((item) => item.productId === product._id)
     : false;
 
