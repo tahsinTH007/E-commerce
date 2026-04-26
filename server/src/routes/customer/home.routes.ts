@@ -60,7 +60,7 @@ customerHomeRouter.get(
         endsAt: { $gte: now },
         count: { $gt: 0 },
       })
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .limit(4)
         .lean<PromoRow[]>(),
     ]);

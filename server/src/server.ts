@@ -64,6 +64,7 @@ async function mainEntryFunction() {
   ]);
 
   // customer
+  app.use("/customer", customerHomeRouter);
   app.use("/customer", [
     customerProductRouter,
     customerAddressRouter,
@@ -72,7 +73,6 @@ async function mainEntryFunction() {
     customerCheckoutRouter,
     customerCheckoutWithPointsRouter,
     customerOrderRouter,
-    customerHomeRouter,
   ]);
 
   app.use(notFoundHandler);

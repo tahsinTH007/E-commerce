@@ -118,12 +118,10 @@ function waitForRazorpay(timeOut = 4000): Promise<void> {
   });
 }
 
-// helpers
-
 const GUEST_CART_KEY = "guest_cart_items";
 
 function readGuestItems(): GuestCartItem[] {
-  if (typeof window === undefined) return [];
+  if (typeof window === "undefined") return [];
 
   try {
     const items = JSON.parse(
@@ -142,13 +140,13 @@ function readGuestItems(): GuestCartItem[] {
 }
 
 function writeGuestItems(items: GuestCartItem[]) {
-  if (typeof window === undefined) return;
+  if (typeof window === "undefined") return;
 
   window.localStorage.setItem(GUEST_CART_KEY, JSON.stringify(items));
 }
 
 function clearGuestItems() {
-  if (typeof window === undefined) return;
+  if (typeof window === "undefined") return;
   window.localStorage.removeItem(GUEST_CART_KEY);
 }
 
@@ -469,7 +467,7 @@ export const useCustomerCartAndCheckoutStore =
                 ...defaultUiState,
               });
 
-              toast.success("Payment successfull");
+              toast.success("Payment successful");
               onSuccess();
             } catch {
               set({ checkoutLoading: false });

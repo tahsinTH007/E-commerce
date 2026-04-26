@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { UserButton } from "@clerk/react";
-import { AdminSidebar } from "../admin/common/Sidebar";
+import { AdminSidebar } from "../admin/common/sidebar";
 
 export function AdminLayout() {
   return (
